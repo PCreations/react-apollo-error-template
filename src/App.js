@@ -3,7 +3,9 @@ import { gql, graphql } from 'react-apollo';
 
 class App extends Component {
   render() {
-    const { data: { loading, people } } = this.props;
+    //const { data: { loading, people } } = this.props;
+    const loading = true;
+    const people = [];
     return (
       <main>
         <header>
@@ -36,11 +38,4 @@ class App extends Component {
   }
 }
 
-export default graphql(
-  gql`{
-    people {
-      id
-      name
-    }
-  }`,
-)(App)
+export default App;

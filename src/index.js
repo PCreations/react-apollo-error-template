@@ -3,10 +3,24 @@ import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloClient, ApolloProvider } from 'react-apollo';
-import { networkInterface } from './graphql/networkInterface';
+import { ApolloLink, SetContextLink } from 'apollo-link';
+import InMemoryCache from 'apollo-cache-inmemory';
 import App from './App';
 
-const client = new ApolloClient({ networkInterface });
+class TestLink extends ApolloLink {
+  request(operation, forward) {
+    forward(operation);
+  }
+}
+
+const cache = new InMemoryCache({});
+
+const client = new ApolloClient({
+  cache,
+  link: ApolloLink.from([new SetContextLink(), new TestLink()]),
+});
+
+console.log('client', client);
 
 ReactDOM.render(
   <ApolloProvider client={client}><App /></ApolloProvider>,
